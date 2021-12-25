@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Lab_1</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HarrisList\HarrisList.csproj" />
+    <ProjectReference Include="..\LinkedList\Queue.csproj" />
+    <ProjectReference Include="..\SkipList\SkipList.csproj" />
+    <ProjectReference Include="..\Synchronization\Synchronization.csproj" />
+  </ItemGroup>
+
+</Project>
