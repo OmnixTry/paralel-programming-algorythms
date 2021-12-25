@@ -1,5 +1,7 @@
 using NUnit.Framework;
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Synchronization.Tests
@@ -9,6 +11,98 @@ namespace Synchronization.Tests
 		[SetUp]
 		public void Setup()
 		{
+		}
+
+		[Test]
+		public void Notify_WhenNotAcquiredLock_ThrowsException()
+		{
+			var mutex = new DiyMutex();
+			
+			Assert.Throws<InvalidOperationException>(() => mutex.Notify(), "Acquire the lock first.");
+		}
+
+		[Test]
+		public void NotifyAll_WhenNotAcquiredLock_ThrowsException()
+		{
+			var mutex = new DiyMutex();
+
+			Assert.Throws<InvalidOperationException>(() => mutex.NotifyAll(), "Acquire the lock first.");
+		}
+
+		[Test]
+		public void Wait_WhenNotAcquiredLock_ThrowsException()
+		{
+			var mutex = new DiyMutex();
+
+			Assert.Throws<InvalidOperationException>(() => mutex.Wait(), "Acquire the lock first.");
+		}
+
+		[Test]
+		public void Unlock_WhenNotAcquiredLock_ThrowsException()
+		{
+			var mutex = new DiyMutex();
+
+			Assert.Throws<InvalidOperationException>(() => mutex.Unlock(), "Acquire the lock first.");
+		}
+
+		[Test]
+		public void NotifyAll_MultipleThreadsWait_AllWakeUp()
+		{
+			// Arrange
+			const int expectedWakeup = 10;
+			int wakeUp = 0;
+			Task[] tasks = new Task[expectedWakeup + 1];
+			var mutex = new DiyMutex();
+			// Act
+			for (int i = 0; i < expectedWakeup; i++)
+			{
+				tasks[i] = Task.Run(() => run());
+			}
+			Thread.Sleep(60000);
+			tasks[expectedWakeup] = Task.Run(() => 
+			{
+				mutex.Lock();
+				mutex.NotifyAll();
+				mutex.Unlock();
+			});
+			Task.WaitAll(tasks);
+			// Assert
+			Assert.AreEqual(expectedWakeup, wakeUp);
+
+
+			void run() {
+				mutex.Lock();
+				mutex.Wait();
+				Interlocked.Increment(ref wakeUp);
+				mutex.Unlock();
+			}
+		}
+
+		[Test]
+		public void Lock_MultipleThreadsCallLock_OtherThreadsAcquireAfterRelease()
+		{
+			// Arrange
+			bool firstDone = false;
+			bool firstValueInSecond = false;
+			var mutex = new DiyMutex();
+			// Act
+			Task.Run(() =>
+			{
+				mutex.Lock();
+				Thread.Sleep(2000);
+				firstDone = true;
+				mutex.Unlock();
+			});
+			Thread.Sleep(1000);
+			Task.Run(() =>
+			{
+				mutex.Lock();
+				firstValueInSecond = firstDone;
+				mutex.Unlock();
+			}).Wait();
+			
+			// Assert
+			Assert.IsTrue(firstValueInSecond);
 		}
 
 		[Test]

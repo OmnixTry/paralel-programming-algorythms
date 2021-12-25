@@ -51,22 +51,8 @@ namespace SkipList
 
         private static int RandomLevel()
         {
-            var x = _randomSeed;
-            x ^= x << 13;
-            x ^= x >> 17;
-            _randomSeed = x ^= x << 5;
-            if ((x & 0x80000001) != 0)
-            {
-                return 0;
-            }
-
-            var level = 1;
-            while (((x >>= 1) & 1) != 0)
-            {
-                level++;
-            }
-
-            return Math.Min(level, SkipList<T>.MaxLevel);
+            Random rand = new Random((int)_randomSeed);
+            return rand.Next(SkipList<T>.MaxLevel);
         }
         /*T value;
 		readonly int key;

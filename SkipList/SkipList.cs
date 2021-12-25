@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SkipList
 {
@@ -20,23 +21,22 @@ namespace SkipList
             }
         }
 
-        public void PrintListState()
+        public List<T> PrintListState()
 		{
             var current = Head.Next[MinLevel].Value;
+            List<T> values = new List<T>();
             while(current != Tail)
 			{
                 Console.Write(current.NodeKey);
                 Console.Write(' ');
+                values.Add(current.NodeValue.Value);
                 current = current.Next[MinLevel].Value;
             }
+
+            return values;
 		}
 
 		#region SkipListMethods
-		/*
-            Якщо знайдено вузол із таким самим значенням, що й значення, яке потрібно вставити, тоді
-             нічого не слід робити (математичний набір не може містити дублікатів).
-             В іншому випадку ми повинні створити новий вузол і вставити його в список.
-        */
 		public bool Insert(Node<T> node)
         {
             var (succs, preds) = CreateNeighbourArrays();

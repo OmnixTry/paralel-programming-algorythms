@@ -60,15 +60,11 @@ namespace Synchronization
 				Interlocked.Exchange(ref _notifyAll, value ? 1 : 0);
 			}
 		}
-		private int WaitingThreads
+		public int WaitingThreads
 		{
 			get
 			{
 				return _waitingThreads;
-			}
-			set
-			{
-				Interlocked.Exchange(ref _waitingThreads, value);
 			}
 		}
 

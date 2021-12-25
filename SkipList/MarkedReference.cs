@@ -43,17 +43,5 @@ namespace SkipList
 
             return _reference.CompareAndExchange(new ReferenceBase<T>(newValue, newMarked), oldReference);
         }
-
-        public bool AttemptMark(T oldValue, bool newMark)
-        {
-            var oldReference = _reference.Value;
-
-            if (!ReferenceEquals(oldReference.Value, oldValue))
-            {
-                return false;
-            }
-
-            return _reference.Value.Marked.SetValue(newMark);
-        }
     }
 }

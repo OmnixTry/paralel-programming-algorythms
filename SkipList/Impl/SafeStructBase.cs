@@ -21,10 +21,10 @@ namespace SkipList.Impl
 			return ConvertLongToType(Interlocked.Read(ref currentValue));
 		}
 
-		public T SetValue(T newValue)
+/*		public T SetValue(T newValue)
 		{
 			return ConvertLongToType(Interlocked.Exchange(ref currentValue, ConvertTypeToLong(newValue)));
-		}
+		}*/
 
 		protected abstract T ConvertLongToType(long value);
 		protected abstract long ConvertTypeToLong(T value);

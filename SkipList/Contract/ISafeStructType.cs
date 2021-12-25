@@ -9,6 +9,6 @@ namespace SkipList.Contract
 	interface ISafeStructType<T>
 	{
 		T GetValue();
-		T SetValue(T newValue);
-	}
+/*		T SetValue(T newValue);
+*/	}
 }
