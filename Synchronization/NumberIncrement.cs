@@ -8,28 +8,32 @@ namespace Synchronization
 {
 	public class NumberIncrement
 	{
-        public int count = 0;
-        private DiyMutex mutex = new DiyMutex();
-        public void Increment()
+        public int Count = 0;
+        private DiyMutex Mutex;
+
+		public NumberIncrement(int count, DiyMutex mutex)
+		{
+			this.Count = count;
+			this.Mutex = mutex;
+		}
+
+		public void Increment()
         {
-            mutex.Lock();
-            count = count + 1;
-            mutex.Unlock();
+            Mutex.Lock();
+            Count = Count + 1;
+            Mutex.Unlock();
         }
 
-        public static void SeriesOfIncrements()
+        public void SeriesOfIncrements(int taskNum)
 		{
-            const int taskNum = 1000;
-
-            NumberIncrement inccrementer = new NumberIncrement();
             Task[] tasks = new Task[taskNum];
             for (int i = 0; i < taskNum; i++)
             {
-                tasks[i] = Task.Run(() => inccrementer.Increment());
+                tasks[i] = Task.Run(() => Increment());
             }
             Task.WaitAll(tasks);
             
-            Console.WriteLine(inccrementer.count);
+            Console.WriteLine(Count);
         }
     }
 }

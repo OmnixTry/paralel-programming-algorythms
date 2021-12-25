@@ -10,9 +10,10 @@ namespace Synchronization
 
 		private int _locked;
 		private Thread _lockedThread;
-		private int _notify;
+		private volatile int _notify;
 		private int _notifyAll;
 		private int _waitingThreads;
+		private Thread _notifyCaller;
 		#endregion
 
 		private bool Locked
@@ -71,18 +72,6 @@ namespace Synchronization
 			}
 		}
 
-		public void FakeLock()
-		{
-			int currentLockedValue = _locked;
-			int value = 0;
-			while(!CAS(ref _locked, currentLockedValue, value))
-			{
-				Thread.Yield();
-				currentLockedValue = _locked;
-			}
-			LockedThread = Thread.CurrentThread;
-		}
-
 		public void Lock()
 		{
 			if (IsCurrentThread())
@@ -114,15 +103,18 @@ namespace Synchronization
 				throw new InvalidOperationException("Acquire the lock first.");
 			}
 
+			
 			Unlock();
 			MarkAsWaiting();
-			while (!ShouldNotify && !ShouldNotifyAll)
+			while (!ShouldNotifyAll && !(ShouldNotify && _notifyCaller != Thread.CurrentThread))
 			{
 				Thread.Yield();
 			}
+			ShouldNotify = false;
+
 			UnMarkAsWaiting();
 			Lock();
-			ShouldNotify = false;
+
 		}
 
 		public void Notify()
@@ -132,6 +124,8 @@ namespace Synchronization
 				throw new InvalidOperationException("Acquire the lock first.");
 			}
 			ShouldNotify = true;
+
+			_notifyCaller = Thread.CurrentThread;
 		}
 
 		public void NotifyAll()
@@ -147,7 +141,6 @@ namespace Synchronization
 				Thread.Yield();
 			}
 			ShouldNotifyAll = false;
-
 		}
 
 		private void MarkAsWaiting()

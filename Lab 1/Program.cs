@@ -66,7 +66,7 @@ namespace Lab_1
 			Task.WaitAll(sender, receiver);
 			*/
 
-			SkipList<int> list = new SkipList<int>();
+			/*SkipList<int> list = new SkipList<int>();
 			List<Node<int>> nodes = new List<Node<int>>
 			{
 				new Node<int>(5),
@@ -85,9 +85,15 @@ namespace Lab_1
 			}
 			list.Delete(nodes[0]);
 			list.Delete(nodes.Last());
-			list.PrintListState();
+			list.PrintListState();*/
 
-			
+			// Arrange
+			TakingTurns tt = new TakingTurns();
+			Operator mt1 = new Operator("Tick", tt);
+			Operator mt2 = new Operator("Tock", tt);
+
+			// Act 
+			Task.WaitAll(mt1.thrd, mt2.thrd);
 		}
 	}
 }

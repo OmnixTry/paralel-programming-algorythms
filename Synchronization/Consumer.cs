@@ -18,9 +18,10 @@ namespace Synchronization
 
 		// standard constructors
 
-		public void Run()
+		public bool Run()
         {
-            for (string receivedMessage = Load.Receive(); "End" != receivedMessage;receivedMessage = Load.Receive())
+            string receivedMessage = "";
+            for (receivedMessage = Load.Receive(); "End" != receivedMessage;receivedMessage = Load.Receive())
             {
                 Console.WriteLine(receivedMessage);
 
@@ -36,6 +37,11 @@ namespace Synchronization
                     Console.WriteLine("Thread interrupted", e);
                 }
             }
+			if (receivedMessage == "End")
+			{
+                return true;
+			}
+            return false;
         }
     }
 }

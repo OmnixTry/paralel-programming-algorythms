@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarrisList", "HarrisList\Ha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Synchronization", "Synchronization\Synchronization.csproj", "{1CEE56E3-4CB5-464C-AE4A-D28AA2435B6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkipList", "SkipList\SkipList.csproj", "{90B3DCD3-E3AB-4DC4-B291-F8CAAFA90D65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkipList", "SkipList\SkipList.csproj", "{90B3DCD3-E3AB-4DC4-B291-F8CAAFA90D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synchronization.Tests", "Synchronization.Tests\Synchronization.Tests.csproj", "{5082B4B2-22BA-4B1E-84BD-C3038563DA6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{90B3DCD3-E3AB-4DC4-B291-F8CAAFA90D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90B3DCD3-E3AB-4DC4-B291-F8CAAFA90D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90B3DCD3-E3AB-4DC4-B291-F8CAAFA90D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5082B4B2-22BA-4B1E-84BD-C3038563DA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5082B4B2-22BA-4B1E-84BD-C3038563DA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5082B4B2-22BA-4B1E-84BD-C3038563DA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5082B4B2-22BA-4B1E-84BD-C3038563DA6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
